@@ -1,4 +1,4 @@
-<p align="center"><h1 align="center">zrclib 🔮</h1></p>
+<p align="center"><h1 align="center">coinshield 🔮</h1></p>
 
 ## Mission
 
@@ -31,9 +31,7 @@ This code is unaudited and under construction. This is experimental software and
 - circom (2.1.5+)
 - b2sum (8.3.2+)
 
-### API reference
 
-https://docs.zrclib.com
 
 ### Install dependencies
 
@@ -65,36 +63,3 @@ pnpm wallet
 ```
 
 - run the wallet application
-
-## API
-
-```ts
-// Get the standard ethers contract
-const token = await ethers.Contract(address, abi, signer);
-
-const account = Account.create(token, "password123");
-await account.loginWithEthersSigner(signer);
-
-expect(account.isLoggedIn()).toBe(true);
-
-// Generate proof that shields 1 token
-// Call the deposit method on the contract which will
-// call `transferFrom` to spend 1 of your ERC-20 tokens and
-// commit the transaction. If the transfer fails the transaction will fail
-const shieldProof = await account.proveShield(1e18);
-await token.deposit(shieldProof);
-
-// Generate proof that sends 0.5 tokens to toAddress
-const transferProof = await account.proveTransfer(5e17, receiver);
-
-// Call the transfer method on the contract which will
-// verify and commit the transaction
-await token.transfer(transferProof);
-
-// Generate proof that burns 0.5 tokens to the receiver address
-const unshieldProof = await account.proveUnshield(5e17, receiver);
-
-// Call the withdraw method on the contract which will
-// call `transferFrom` to return 0.5 of your ERC-20 tokens to your public account
-await token.withdraw(unshieldProof);
-```
